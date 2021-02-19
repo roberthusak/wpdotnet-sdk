@@ -12,13 +12,13 @@ namespace PeachPied.WordPress.Standard
     public static class WpStandard
     {
         /// <summary>The name of the database for WordPress</summary>
-        public static string DB_NAME { get; set; } = "wordpress";
+        public static string DB_NAME { get; set; } = "peachpress2";
 
         /// <summary>MySQL database username</summary>
         public static string DB_USER { get; set; } = "root";
 
         /// <summary>MySQL database password</summary>
-        public static string DB_PASSWORD { get; set; } = "";
+        public static string DB_PASSWORD { get; set; } = "root";
 
         /// <summary>MySQL hostname</summary>
         public static string DB_HOST { get; set; } = "localhost";

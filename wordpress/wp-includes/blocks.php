@@ -436,7 +436,7 @@ function get_comment_delimited_block_content( $block_name, $block_attributes, $b
  *
  * @since 5.3.1
  *
- * @param WP_Block_Parser_Block $block A single parsed block object.
+ * @param array $block A single parsed block object.
  * @return string String of rendered HTML.
  */
 function serialize_block( $block ) {
@@ -502,7 +502,7 @@ function filter_block_content( $text, $allowed_html = 'post', $allowed_protocols
  *
  * @since 5.3.1
  *
- * @param WP_Block_Parser_Block $block             The parsed block object.
+ * @param array $block             The parsed block object.
  * @param array[]|string        $allowed_html      An array of allowed HTML
  *                                                 elements and attributes, or a
  *                                                 context name such as 'post'.

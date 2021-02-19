@@ -13,6 +13,31 @@
     </Description>
     <DefineConstants>$(DefineConstants);OBJECT="OBJECT";</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyName>Peachpied.WordPress.$(Configuration)</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition="
+    '$(Configuration)' == 'PhpDocOverloadsStatic' or
+    '$(Configuration)' == 'PhpDocOverloadsDynamic' or
+    '$(Configuration)' == 'PhpDocOverloadsBranch' or
+    '$(Configuration)' == 'CallSiteOverloadsStatic' or
+    '$(Configuration)' == 'CallSiteOverloadsBranch' or
+    '$(Configuration)' == 'UsageOverloadsStatic' or
+    '$(Configuration)' == 'UsageOverloadsBranch'">
+    <ExperimentalOptimization>$(Configuration)</ExperimentalOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForce'">
+    <PhpDocTypes>ParameterTypes,ReturnTypes</PhpDocTypes>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForceParams'">
+    <PhpDocTypes>ParameterTypes</PhpDocTypes>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForceParamFunctions'">
+    <PhpDocTypes>ParameterTypes</PhpDocTypes>
+    <ExperimentalOptimization>PhpDocForceOnlyFunctions</ExperimentalOptimization>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="**/*.php" Exclude="
       obj/**;

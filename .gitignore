@@ -257,3 +257,7 @@ wordpress/wp-content/plugins/akismet
 wordpress/wp-content/plugins/hello.php
 wordpress/wp-content/themes/twentysixteen
 wordpress/wp-content/uploads/
+
+# Benchmarks
+Peachpied.WordPress.Benchmarks/proofs
+Peachpied.WordPress.Benchmarks/BenchmarkDotNet.Artifacts

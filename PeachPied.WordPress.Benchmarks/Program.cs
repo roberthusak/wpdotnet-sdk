@@ -18,7 +18,7 @@ namespace Benchmarks
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<WpBenchmark>();
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
         }
     }
 

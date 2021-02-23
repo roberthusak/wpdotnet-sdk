@@ -406,7 +406,7 @@ function network_step2( $errors = false ) {
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) ) {
-		echo '<div class="error">' . $errors->get_error_message() . '</div>';
+		// echo '<div class="error">' . $errors->get_error_message() . '</div>';
 	}
 
 	if ( $_POST ) {

@@ -4548,7 +4548,7 @@ function wp_array_slice_assoc( $array, $keys ) {
  * @since 5.6.0
  * @access private
  *
- * @param array $array   An array from which we want to retrieve some information.
+ * @param mixed $array   An array from which we want to retrieve some information.
  * @param array $path    An array of keys describing the path with which to retrieve information.
  * @param mixed $default The return value if the path does not exist within the array,
  *                       or if `$array` or `$path` are not arrays.

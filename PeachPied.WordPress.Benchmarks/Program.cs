@@ -12,7 +12,7 @@ using System.Linq;
 using System.Reflection;
 using PeachPied.WordPress.Standard;
 
-namespace Benchmarks
+namespace PeachPied.WordPress.Benchmarks
 {
     class Program
     {

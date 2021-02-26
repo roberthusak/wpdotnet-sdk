@@ -32,6 +32,11 @@ namespace PeachPied.WordPress.Benchmarks
             public Config()
             {
                 AddJob(Job.LongRun
+                    .WithLaunchCount(1)
+                    .WithWarmupCount(25)
+                    .WithIterationCount(25)
+                    .WithUnrollFactor(4)
+                    .WithInvocationCount(4)
                     .WithToolchain(CsProjCoreToolchain.From(
                         NetCoreAppSettings.NetCoreApp31
                             .WithTimeout(new TimeSpan(0, 0, 10)))));

@@ -1,17 +1,24 @@
 param (
-    [bool] $build,
     [string[]] $configs,
-    [string] $logFile = "benchmarks.log"
+    [string] $logFile = "benchmarks.log",
+    [switch] $build = $false,
+    [switch] $benchmarks = $false,
+    [switch] $stats = $false
 )
 
+$logFile = [System.IO.Path]::GetFullPath($logFile)
+
+if (Test-Path $logFile) {
+    Clear-Content $logFile
+}
+
 if ($build) {
-    Write-Output "Building configurations:"
+    Write-Output "Building configurations:" | Tee-Object $logFile -Append
     Push-Location "wordpress"
     
     $success = $True
-    Clear-Content $logFile
     foreach ($config in $configs) {
-        Write-Output $config
+        Write-Output $config | Tee-Object $logFile -Append
         & dotnet build -c $config /p:IsPackable=false | Out-File $logFile -Append
         if ($?) {
             Write-Output "OK"
@@ -28,12 +35,29 @@ if ($build) {
     }
 }
 
-Write-Output "Benchmarking"
-Push-Location "PeachPied.WordPress.Benchmarks"
+if ($benchmarks) {
+    Write-Output "Benchmarking:" | Tee-Object $logFile -Append
+    Push-Location "PeachPied.WordPress.Benchmarks"
 
-& dotnet build -c Release --no-dependencies
+    & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
 
-$filters = $configs | ForEach-Object { "*." + $_ }
-& dotnet run -c Release --no-build -- --join --filter $filters
+    $filters = $configs | ForEach-Object { "*." + $_ }
+    & dotnet run -c Release --no-build -- --join --filter $filters
 
-Pop-Location
+    Pop-Location
+}
+
+if ($stats) {
+    Write-Output "Measuring statistics:" | Tee-Object $logFile -Append
+
+    Push-Location "PeachPied.WordPress.StatsRunner"
+    & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+    Pop-Location    
+
+    Push-Location "PeachPied.WordPress.Stats"
+
+    & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+    & dotnet run -c Release --no-build -- $configs | Tee-Object $logFile -Append
+
+    Pop-Location
+}

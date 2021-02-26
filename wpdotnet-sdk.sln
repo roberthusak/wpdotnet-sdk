@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeachPied.WordPress.Benchma
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PeachPied.WordPress.Stats", "PeachPied.WordPress.Stats\PeachPied.WordPress.Stats.csproj", "{53AFB3B1-2100-4DAE-B9B4-B51420E87590}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PeachPied.WordPress.StatsRunner", "PeachPied.WordPress.StatsRunner\PeachPied.WordPress.StatsRunner.csproj", "{EE3C394D-89B8-4A89-9304-9ADC4CEC9D2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,10 @@ Global
 		{53AFB3B1-2100-4DAE-B9B4-B51420E87590}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53AFB3B1-2100-4DAE-B9B4-B51420E87590}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53AFB3B1-2100-4DAE-B9B4-B51420E87590}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE3C394D-89B8-4A89-9304-9ADC4CEC9D2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE3C394D-89B8-4A89-9304-9ADC4CEC9D2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE3C394D-89B8-4A89-9304-9ADC4CEC9D2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE3C394D-89B8-4A89-9304-9ADC4CEC9D2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -27,6 +27,15 @@
             "request": "launch",
             "program": "${workspaceFolder}/PeachPied.WordPress.Benchmarks/bin/Release/netcoreapp3.1/PeachPied.WordPress.Benchmarks.dll",
             "args": [],
+            "cwd": "${workspaceFolder}/PeachPied.WordPress.Benchmarks",
+        },
+        {
+            "name": "WP Stats Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/PeachPied.WordPress.Stats/bin/Release/netcoreapp3.1/PeachPied.WordPress.Stats.dll",
+            "args": [ "Release" ],
+            "cwd": "${workspaceFolder}/PeachPied.WordPress.Stats",
         },
         {
             "name": ".NET Core Attach",

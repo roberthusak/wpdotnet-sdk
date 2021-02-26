@@ -26,6 +26,11 @@ namespace PeachPied.WordPress.Stats
             }
         }
 
+        private Table(ImmutableArray<Column> columns)
+        {
+            _columns = columns;
+        }
+
         public void Print(TextWriter writer)
         {
             var columnWidths =
@@ -43,6 +48,17 @@ namespace PeachPied.WordPress.Stats
             }
             writer.WriteLine("|");
 
+            // Separating line
+            for (int j = 0; j < columnWidths.Length; j++)
+            {
+                writer.Write("|");
+                for (int i = 0; i < columnWidths[j] + 2; i++)
+                {
+                    writer.Write('-');
+                }
+            }
+            writer.WriteLine("|");
+
             // Data
             for (int i = 0; i < _columns[0].Data.Length; i++)
             {
@@ -54,6 +70,16 @@ namespace PeachPied.WordPress.Stats
                 }
                 writer.WriteLine("|");
             }
+        }
+
+        public (Table, Table) Split(int commonColumns, int dataColumnsLeft)
+        {
+            int firstColumnCount = commonColumns + dataColumnsLeft;
+            var firstColumns = _columns.RemoveRange(firstColumnCount, _columns.Length - firstColumnCount);
+
+            var secondColumns = _columns.RemoveRange(commonColumns, dataColumnsLeft);
+
+            return (new Table(firstColumns), new Table(secondColumns));
         }
 
         private class Column

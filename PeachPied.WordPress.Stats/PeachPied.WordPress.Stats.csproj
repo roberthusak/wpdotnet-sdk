@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\wordpress\PeachPied.WordPress.msbuildproj" />
+    <ProjectReference Include="..\PeachPied.WordPress.StatsRunner\PeachPied.WordPress.StatsRunner.csproj" />
   </ItemGroup>
 
 </Project>

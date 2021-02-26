@@ -74,7 +74,6 @@ namespace PeachPied.WordPress.Benchmarks
             ctx.Output = this.textOutput;
             ctx.Server["HTTP_HOST"] = "localhost:5004";
             ctx.Server["REQUEST_URI"] = "/";
-            //ctx.Globals["table_prefix"] = "wp_";
 
             // SALT
             ctx.DefineConstant("AUTH_KEY", "*Sr748b66z3R+(v%1z;|SCtBZz/cEvo1)mo|F&EO>5a^1aF6@C9^KIzG&MD?=Zmt");

@@ -261,3 +261,6 @@ wordpress/wp-content/uploads/
 # Benchmarks
 Peachpied.WordPress.Benchmarks/proofs
 Peachpied.WordPress.Benchmarks/BenchmarkDotNet.Artifacts
+
+# Stats
+Peachpied.WordPress.Stats/proofs

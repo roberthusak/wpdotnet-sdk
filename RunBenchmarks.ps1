@@ -7,6 +7,16 @@ param (
 )
 
 $logFile = [System.IO.Path]::GetFullPath($logFile)
+$expectedOutput = Get-Content ".\Expected.html"
+
+function CheckProofFiles() {
+    foreach ($config in $configs) {
+        $configOutput = Get-Content "./proofs/$config.html"
+        if (Compare-Object -ReferenceObject $expectedOutput -DifferenceObject $configOutput) {
+            Write-Output "Wrong output of configuration $config!" | Tee-Object $logFile -Append
+        }
+    }
+}
 
 if (Test-Path $logFile) {
     Clear-Content $logFile
@@ -44,6 +54,8 @@ if ($benchmarks) {
     $filters = $configs | ForEach-Object { "*." + $_ }
     & dotnet run -c Release --no-build -- --join --filter $filters
 
+    CheckProofFiles
+
     Pop-Location
 }
 
@@ -58,6 +70,8 @@ if ($stats) {
 
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
     & dotnet run -c Release --no-build -- $configs | Tee-Object $logFile -Append
+
+    CheckProofFiles
 
     Pop-Location
 }

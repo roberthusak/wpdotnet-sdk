@@ -158,11 +158,11 @@ function network_step1( $errors = false ) {
 	$error_codes = array();
 	if ( is_wp_error( $errors ) ) {
 		echo '<div class="error"><p><strong>' . __( 'Error: The network could not be created.' ) . '</strong></p>';
-		//foreach ( $errors->get_error_messages() as $error ) {
-		//	echo "<p>$error</p>";
-		//}
+		foreach ( $errors->get_error_messages() as $error ) {
+			echo "<p>$error</p>";
+		}
 		echo '</div>';
-		//$error_codes = $errors->get_error_codes();
+		$error_codes = $errors->get_error_codes();
 	}
 
 	if ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes, true ) ) {
@@ -406,7 +406,7 @@ function network_step2( $errors = false ) {
 
 	// Wildcard DNS message.
 	if ( is_wp_error( $errors ) ) {
-		// echo '<div class="error">' . $errors->get_error_message() . '</div>';
+		echo '<div class="error">' . $errors->get_error_message() . '</div>';
 	}
 
 	if ( $_POST ) {

@@ -3888,7 +3888,7 @@ function _wp_die_process_input( $message, $title = '', $args = array() ) {
 					$errors[] = array(
 						'code'    => $error_code,
 						'message' => $error_message,
-						'data'    => "", //$message->get_error_data( $error_code ),
+						'data'    => $message->get_error_data( $error_code ),
 					);
 				}
 			}

@@ -562,11 +562,11 @@ function wp_reset_vars( $vars ) {
  */
 function show_message( $message ) {
 	if ( is_wp_error( $message ) ) {
-		//if ( $message->get_error_data() && is_string( $message->get_error_data() ) ) {
-		//	$message = $message->get_error_message() . ': ' . $message->get_error_data();
-		//} else {
-		//	$message = $message->get_error_message();
-		//}
+		if ( $message->get_error_data() && is_string( $message->get_error_data() ) ) {
+			$message = $message->get_error_message() . ': ' . $message->get_error_data();
+		} else {
+			$message = $message->get_error_message();
+		}
 	}
 	echo "<p>$message</p>\n";
 	wp_ob_end_flush_all();

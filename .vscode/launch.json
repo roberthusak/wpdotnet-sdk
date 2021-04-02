@@ -38,6 +38,14 @@
             "cwd": "${workspaceFolder}/PeachPied.WordPress.Stats",
         },
         {
+            "name": "WP StatsRunner Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceFolder}/PeachPied.WordPress.StatsRunner/bin/Release/netcoreapp3.1/PeachPied.WordPress.StatsRunner.dll",
+            "args": [ "Release" ],
+            "cwd": "${workspaceFolder}/PeachPied.WordPress.StatsRunner",
+        },
+        {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",

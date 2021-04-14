@@ -24,7 +24,8 @@
     '$(Configuration)' == 'CallSiteOverloadsStatic' or
     '$(Configuration)' == 'CallSiteOverloadsBranch' or
     '$(Configuration)' == 'UsageOverloadsStatic' or
-    '$(Configuration)' == 'UsageOverloadsBranch'">
+    '$(Configuration)' == 'UsageOverloadsBranch' or
+    '$(Configuration)' == 'TargetedOverloadsStatic'">
     <ExperimentalOptimization>$(Configuration)</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForce'">
@@ -36,6 +37,12 @@
   <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForceParamFunctions'">
     <PhpDocTypes>ParameterTypes</PhpDocTypes>
     <ExperimentalOptimization>PhpDocForceOnlyFunctions</ExperimentalOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticString'">
+    <ExperimentalOptimization>CallSiteOverloads,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchString'">
+    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
 
   <ItemGroup>

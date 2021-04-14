@@ -114,6 +114,9 @@ namespace PeachPied.WordPress.Benchmarks
         public void CallSiteOverloadsBranch() => RunBenchmark(nameof(CallSiteOverloadsBranch));
 
         [Benchmark]
+        public void CallSiteOverloadsBranchString() => RunBenchmark(nameof(CallSiteOverloadsBranchString));
+
+        [Benchmark]
         public void PhpDocForce() => RunBenchmark(nameof(PhpDocForce));
 
         [Benchmark]
@@ -126,6 +129,9 @@ namespace PeachPied.WordPress.Benchmarks
         public void CallSiteOverloadsStatic() => RunBenchmark(nameof(CallSiteOverloadsStatic));
 
         [Benchmark]
+        public void CallSiteOverloadsStaticString() => RunBenchmark(nameof(CallSiteOverloadsStaticString));
+
+        [Benchmark]
         public void PhpDocOverloadsDynamic() => RunBenchmark(nameof(PhpDocOverloadsDynamic));
 
         [Benchmark]
@@ -136,6 +142,9 @@ namespace PeachPied.WordPress.Benchmarks
 
         [Benchmark]
         public void UsageOverloadsBranch() => RunBenchmark(nameof(UsageOverloadsBranch));
+
+        [Benchmark]
+        public void TargetedOverloadsStatic() => RunBenchmark(nameof(TargetedOverloadsStatic));
 
         [GlobalCleanup]
         public void Cleanup()

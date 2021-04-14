@@ -24,7 +24,7 @@ namespace PeachPied.WordPress.Benchmarks
 
     [Config(typeof(Config))]
     [MemoryDiagnoser]
-
+    
     public class WpBenchmark
     {
         private class Config : ManualConfig
@@ -37,6 +37,7 @@ namespace PeachPied.WordPress.Benchmarks
                     .WithIterationCount(25)
                     .WithUnrollFactor(4)
                     .WithInvocationCount(4)
+                    .WithGcForce(false)
                     .WithToolchain(CsProjCoreToolchain.From(
                         NetCoreAppSettings.NetCoreApp31
                             .WithTimeout(new TimeSpan(0, 0, 10)))));

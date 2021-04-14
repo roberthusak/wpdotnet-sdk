@@ -67,9 +67,10 @@ if ($stats) {
     Pop-Location    
 
     Push-Location "PeachPied.WordPress.Stats"
+    $statsLogFile = "results/stats_" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".log"
 
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
-    & dotnet run -c Release --no-build -- $configs | Tee-Object $logFile -Append
+    & dotnet run -c Release --no-build -- $configs | Tee-Object $statsLogFile -Append | Tee-Object $logFile -Append
 
     CheckProofFiles
 

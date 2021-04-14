@@ -45,6 +45,11 @@
     <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(EnableCallTracing)'">
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallTracing</ExperimentalOptimization>
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallTracing</ExperimentalOptimization>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Include="**/*.php" Exclude="
       obj/**;

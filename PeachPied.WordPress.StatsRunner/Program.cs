@@ -5,21 +5,33 @@ using System.Reflection;
 using Pchp.Core;
 using PeachPied.WordPress.Standard;
 
+#nullable enable
+
 namespace PeachPied.WordPress.StatsRunner
 {
     class Program
     {
         static void Main(string[] args)
         {
-            string configuration = args[0];
+            bool isTracingEnabled = args.Contains("-trace");
+            string configuration = args.SkipWhile(arg => arg.StartsWith('-')).Single();
+
+            // Compute and create necessary directories if they do not exist
             string solutionDir = Path.GetFullPath("..");
             string wpDir = $"{solutionDir}/wordpress";
-            string proofFile = $"{solutionDir}/PeachPied.WordPress.Stats/proofs/{configuration}.html";
+            string statsDir = $"{solutionDir}/PeachPied.WordPress.Stats";
+            string proofDir = $"{statsDir}/proofs";
+            string traceDir = $"{statsDir}/traces";
+            Directory.CreateDirectory(proofDir);
+            Directory.CreateDirectory(traceDir);
+
+            string proofFile = $"{proofDir}/{configuration}.html";
+            string? traceFile = isTracingEnabled ? $"{traceDir}/{configuration}.txt" : null;
 
             var assembly = Assembly.LoadFrom($"{wpDir}/bin/{configuration}/netstandard2.0/PeachPied.WordPress.{configuration}.dll");
             Context.AddScriptReference(assembly);
 
-            RunWordPress(wpDir, proofFile);
+            RunWordPress(wpDir, proofFile, traceFile);
 
             Console.WriteLine(RuntimeCounters.RoutineCalls);
             Console.WriteLine(RuntimeCounters.GlobalFunctionCalls);
@@ -30,17 +42,35 @@ namespace PeachPied.WordPress.StatsRunner
             Console.WriteLine(RuntimeCounters.BranchedCallSpecializedSelects);
         }
 
-        private static void RunWordPress(string wpDir, string proofFile)
+        private static void RunWordPress(string wpDir, string proofFile, string? traceFile)
         {
             // Clean up the output file before the run
+            Directory.CreateDirectory(Path.GetDirectoryName(proofFile));
             File.WriteAllText(proofFile, "");
+
+            // Optionally set up tracing
+            using var traceWriter = (traceFile != null) ? new StreamWriter(traceFile) : null;
+            if (traceWriter != null)
+            {
+                RuntimeTracing.TraceWriter = traceWriter;
+            }
 
             var binOut = new MemoryStream();
             var textOut = new StreamWriter(binOut);
-            var ctx = Context.CreateConsole("index.php");
+            using var ctx = Context.CreateConsole("index.php");
             ctx.RootPath = ctx.WorkingDirectory = wpDir;
             ctx.OutputStream = binOut;
             ctx.Output = textOut;
+
+            RunWordPressCore(ctx);
+
+            // Output the result to the file
+            textOut.Flush();
+            File.WriteAllBytes(proofFile, binOut.ToArray());
+        }
+
+        private static void RunWordPressCore(Context ctx)
+        {
             ctx.Server["HTTP_HOST"] = "localhost:5004";
             ctx.Server["REQUEST_URI"] = "/";
 
@@ -66,10 +96,6 @@ namespace PeachPied.WordPress.StatsRunner
             {
                 died.ProcessStatus(ctx);
             }
-
-            // Output the result to the file
-            textOut.Flush();
-            File.WriteAllBytes(proofFile, binOut.ToArray());
         }
     }
 }

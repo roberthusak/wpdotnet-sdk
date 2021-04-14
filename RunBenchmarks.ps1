@@ -2,6 +2,7 @@ param (
     [string[]] $configs,
     [string] $logFile = "benchmarks.log",
     [switch] $build = $false,
+    [switch] $trace = $false,
     [switch] $benchmarks = $false,
     [switch] $stats = $false
 )
@@ -29,7 +30,7 @@ if ($build) {
     $success = $True
     foreach ($config in $configs) {
         Write-Output $config | Tee-Object $logFile -Append
-        & dotnet build -c $config /p:IsPackable=false | Out-File $logFile -Append
+        & dotnet build -c $config /p:IsPackable=false /p:EnableCallTracing=$trace | Out-File $logFile -Append
         if ($?) {
             Write-Output "OK"
         } else {
@@ -70,7 +71,8 @@ if ($stats) {
     $statsLogFile = "results/stats_" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".log"
 
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
-    & dotnet run -c Release --no-build -- $configs | Tee-Object $statsLogFile -Append | Tee-Object $logFile -Append
+    $flags = If ($trace) { @("-trace") } else { @() }
+    & dotnet run -c Release --no-build -- $flags $configs | Tee-Object $statsLogFile -Append | Tee-Object $logFile -Append
 
     CheckProofFiles
 

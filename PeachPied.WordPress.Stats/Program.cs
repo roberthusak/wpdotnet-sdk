@@ -12,11 +12,14 @@ namespace PeachPied.WordPress.Stats
     {
         static void Main(string[] args)
         {
+            string[] flags = args.TakeWhile(arg => arg.StartsWith('-')).ToArray();
+            string[] configurations = args.Skip(flags.Length).ToArray();
+
             string solutionDir = Path.GetFullPath("..");
             string wpDir = $"{solutionDir}/wordpress";
 
-            PrintCompilationData(args, wpDir);
-            PrintRuntimeData(args, solutionDir);
+            PrintCompilationData(configurations, wpDir);
+            PrintRuntimeData(configurations, flags, solutionDir);
         }
 
         private static void PrintCompilationData(string[] configurations, string wpDir)
@@ -73,7 +76,7 @@ namespace PeachPied.WordPress.Stats
             Console.WriteLine();
         }
 
-        private static void PrintRuntimeData(string[] configurations, string solutionDir)
+        private static void PrintRuntimeData(string[] configurations, string[] flags, string solutionDir)
         {
             string statsRunnerDir = Path.Combine(solutionDir, "PeachPied.WordPress.StatsRunner");
 
@@ -94,7 +97,8 @@ namespace PeachPied.WordPress.Stats
             for (int i = 0; i < configurations.Length; i++)
             {
                 string configuration = configurations[i];
-                var processInfo = new ProcessStartInfo("dotnet", $"run -c Release --no-build -- {configuration}")
+                string flagsStr = string.Join(' ', flags);
+                var processInfo = new ProcessStartInfo("dotnet", $"run -c Release --no-build -- {flagsStr} {configuration}")
                 {
                     WorkingDirectory = statsRunnerDir,
                     RedirectStandardOutput = true,

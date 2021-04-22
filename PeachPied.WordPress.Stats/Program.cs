@@ -20,6 +20,11 @@ namespace PeachPied.WordPress.Stats
 
             PrintCompilationData(configurations, wpDir);
             PrintRuntimeData(configurations, flags, solutionDir);
+
+            if (flags.Contains("-trace"))
+            {
+                CheckTraces(configurations, solutionDir, Path.GetFullPath("traces"));
+            }
         }
 
         private static void PrintCompilationData(string[] configurations, string wpDir)
@@ -128,6 +133,20 @@ namespace PeachPied.WordPress.Stats
             table2.Print(Console.Out);
             Console.WriteLine();
             Console.WriteLine();
+        }
+
+        private static void CheckTraces(string[] configurations, string solutionDir, string traceDir)
+        {
+            var checker = new TraceChecker($"{solutionDir}/Expected.txt");
+
+            foreach (var configuration in configurations)
+            {
+                int? errorLine = checker.CheckTrace($"{traceDir}/{configuration}.txt");
+                if (errorLine != null)
+                {
+                    Console.WriteLine($"Incorrect trace of configuration {configuration} on line {errorLine}.");
+                }
+            }
         }
     }
 }

@@ -45,9 +45,12 @@
     <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(EnableCallTracing)' == ''">
+    <EnableCallTracing>false</EnableCallTracing>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(EnableCallTracing)'">
-    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallTracing</ExperimentalOptimization>
-    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallTracing</ExperimentalOptimization>
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallTracing,RoutineCallParameterTracing</ExperimentalOptimization>
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallTracing,RoutineCallParameterTracing</ExperimentalOptimization>
   </PropertyGroup>
 
   <ItemGroup>

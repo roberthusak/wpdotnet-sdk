@@ -264,3 +264,4 @@ Peachpied.WordPress.Benchmarks/BenchmarkDotNet.Artifacts
 
 # Stats
 Peachpied.WordPress.Stats/proofs
+Peachpied.WordPress.Stats/traces

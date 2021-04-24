@@ -52,7 +52,16 @@ if ($benchmarks) {
 
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
 
-    $filters = $configs | ForEach-Object { "*." + $_ }
+    $filters = @()
+    if ($configs.Contains("Release")) {
+        $filters += "*.Release"
+    }
+    $optimizationConfigs = ($configs | Where-Object { $_ -ne "Release"})
+    if ($optimizationConfigs.Count -gt 0) {
+        $filters += "*.Optimization"
+        $env:WpBenchmark_Optimizations = $optimizationConfigs
+    }
+
     & dotnet run -c Release --no-build -- --join --filter $filters
 
     CheckProofFiles

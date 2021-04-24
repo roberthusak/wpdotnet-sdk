@@ -2,11 +2,15 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Order;
+using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
 using BenchmarkDotNet.Toolchains.CsProj;
 using BenchmarkDotNet.Toolchains.DotNetCli;
 using Pchp.Core;
 using System;
+using System.Collections.Immutable;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +28,6 @@ namespace PeachPied.WordPress.Benchmarks
 
     [Config(typeof(Config))]
     [MemoryDiagnoser]
-    
     public class WpBenchmark
     {
         private class Config : ManualConfig
@@ -41,6 +44,33 @@ namespace PeachPied.WordPress.Benchmarks
                     .WithToolchain(CsProjCoreToolchain.From(
                         NetCoreAppSettings.NetCoreApp31
                             .WithTimeout(new TimeSpan(0, 0, 10)))));
+
+                SummaryStyle =
+                    SummaryStyle.Default
+                        .WithMaxParameterColumnWidth(40);
+                Orderer = new SingleGroupOrderer();
+            }
+
+            private class SingleGroupOrderer : IOrderer
+            {
+                private DefaultOrderer _default = new DefaultOrderer();
+
+                public bool SeparateLogicalGroups => _default.SeparateLogicalGroups;
+
+                public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase) =>
+                    _default.GetExecutionOrder(benchmarksCase);
+
+                public string GetHighlightGroupKey(BenchmarkCase benchmarkCase) =>
+                    _default.GetHighlightGroupKey(benchmarkCase);
+
+                public string GetLogicalGroupKey(ImmutableArray<BenchmarkCase> allBenchmarksCases, BenchmarkCase benchmarkCase) =>
+                    "all";
+
+                public IEnumerable<IGrouping<string, BenchmarkCase>> GetLogicalGroupOrder(IEnumerable<IGrouping<string, BenchmarkCase>> logicalGroups) =>
+                    _default.GetLogicalGroupOrder(logicalGroups);
+
+                public IEnumerable<BenchmarkCase> GetSummaryOrder(ImmutableArray<BenchmarkCase> benchmarksCases, Summary summary) =>
+                    _default.GetSummaryOrder(benchmarksCases, summary);
             }
         }
 
@@ -108,44 +138,14 @@ namespace PeachPied.WordPress.Benchmarks
         [Benchmark(Baseline = true)]
         public void Release() => RunBenchmark(nameof(Release));
 
-        [Benchmark]
-        public void PhpDocOverloadsBranch() => RunBenchmark(nameof(PhpDocOverloadsBranch));
+        public static ImmutableArray<string> Optimizations { get; } =
+            (Environment.GetEnvironmentVariable("WpBenchmark_Optimizations") ?? "")
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .ToImmutableArray();
 
         [Benchmark]
-        public void CallSiteOverloadsBranch() => RunBenchmark(nameof(CallSiteOverloadsBranch));
-
-        [Benchmark]
-        public void CallSiteOverloadsBranchString() => RunBenchmark(nameof(CallSiteOverloadsBranchString));
-
-        [Benchmark]
-        public void PhpDocForce() => RunBenchmark(nameof(PhpDocForce));
-
-        [Benchmark]
-        public void PhpDocForceParams() => RunBenchmark(nameof(PhpDocForceParams));
-
-        [Benchmark]
-        public void PhpDocOverloadsStatic() => RunBenchmark(nameof(PhpDocOverloadsStatic));
-
-        [Benchmark]
-        public void CallSiteOverloadsStatic() => RunBenchmark(nameof(CallSiteOverloadsStatic));
-
-        [Benchmark]
-        public void CallSiteOverloadsStaticString() => RunBenchmark(nameof(CallSiteOverloadsStaticString));
-
-        [Benchmark]
-        public void PhpDocOverloadsDynamic() => RunBenchmark(nameof(PhpDocOverloadsDynamic));
-
-        [Benchmark]
-        public void PhpDocForceParamFunctions() => RunBenchmark(nameof(PhpDocForceParamFunctions));
-
-        [Benchmark]
-        public void UsageOverloadsStatic() => RunBenchmark(nameof(UsageOverloadsStatic));
-
-        [Benchmark]
-        public void UsageOverloadsBranch() => RunBenchmark(nameof(UsageOverloadsBranch));
-
-        [Benchmark]
-        public void TargetedOverloadsStatic() => RunBenchmark(nameof(TargetedOverloadsStatic));
+        [ArgumentsSource(nameof(Optimizations))]
+        public void Optimization(string configuration) => RunBenchmark(configuration);
 
         [GlobalCleanup]
         public void Cleanup()

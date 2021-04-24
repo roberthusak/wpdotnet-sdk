@@ -45,6 +45,14 @@
     <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(EnableCallCounting)' == ''">
+    <EnableCallCounting>false</EnableCallCounting>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(EnableCallCounting)'">
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallCounting</ExperimentalOptimization>
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallCounting</ExperimentalOptimization>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(EnableCallTracing)' == ''">
     <EnableCallTracing>false</EnableCallTracing>
   </PropertyGroup>

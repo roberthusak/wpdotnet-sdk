@@ -30,7 +30,7 @@ if ($build) {
     $success = $True
     foreach ($config in $configs) {
         Write-Output $config | Tee-Object $logFile -Append
-        & dotnet build -c $config /p:IsPackable=false /p:EnableCallTracing=$trace | Out-File $logFile -Append
+        & dotnet build -c $config /p:IsPackable=false /p:EnableCallCounting=$stats /p:EnableCallTracing=$trace | Out-File $logFile -Append
         if ($?) {
             Write-Output "OK"
         } else {

@@ -4,7 +4,10 @@ param (
     [switch] $build = $false,
     [switch] $trace = $false,
     [switch] $benchmarks = $false,
-    [switch] $stats = $false
+    [switch] $stats = $false,
+    [switch] $buildPeachpie = $false,
+    [string] $peachpiePath = $null,
+    [string] $peachpieConfig = "Release"
 )
 
 $logFile = [System.IO.Path]::GetFullPath($logFile)
@@ -21,6 +24,36 @@ function CheckProofFiles() {
 
 if (Test-Path $logFile) {
     Clear-Content $logFile
+}
+
+if ($buildPeachpie) {
+    if (-not $peachpiePath) {
+        Write-Output "Specify -peachpiePath to compile Peachpie"
+        exit
+    }
+
+    Push-Location $peachpiePath
+
+    Write-Output "Building Peachpie and updating packages..." | Tee-Object $logFile -Append
+
+    Remove-Item .nugs/*.nupkg
+    Remove-Item .nugs/*.snupkg
+
+    & dotnet build -c $peachpieConfig | Out-File $logFile -Append
+    if (-not $?) {
+        Write-Output "Error compiling Peachpie"
+        exit
+    }
+
+    & build/update-cache.ps1 | Out-File $logFile -Append
+    if (-not $?) {
+        Write-Output "Error updating Peachpie packages"
+        exit
+    }
+
+    Write-Output "OK"
+
+    Pop-Location
 }
 
 if ($build) {

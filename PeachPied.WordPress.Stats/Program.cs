@@ -42,16 +42,22 @@ namespace PeachPied.WordPress.Stats
                     "Ambiguous source function call sites",
                     "Branched source function call sites",
                     "Original source function call sites",
-                    "Specialized source function call sites"
+                    "Specialized source function call sites",
+                    "Compilation time [ms]",
+                    "Assembly size [kB]"
                 };
 
             var results = new string[configurations.Length][];
             for (int i = 0; i < configurations.Length; i++)
             {
                 string configuration = configurations[i];
-                var assembly =
-                    Assembly.LoadFrom($"{wpDir}/bin/{configuration}/netstandard2.0/Peachpied.WordPress.{configuration}.dll");
+                string assemblyPath = $"{wpDir}/bin/{configuration}/netstandard2.0/Peachpied.WordPress.{configuration}.dll";
+                string compilationTimePath = $"{wpDir}/obj/{configuration}/netstandard2.0/CompilationTime.txt";
+
+                var assembly = Assembly.LoadFrom(assemblyPath);
                 var compilationCounters = assembly.GetCustomAttribute<CompilationCountersAttribute>();
+                string compilationMs = File.Exists(compilationTimePath) ? File.ReadAllText(compilationTimePath) : "";
+                long assemblyKB = new FileInfo(assemblyPath).Length / 1024;
 
                 results[i] =
                     new[]
@@ -66,17 +72,22 @@ namespace PeachPied.WordPress.Stats
                         compilationCounters.AmbiguousSourceFunctionCalls.ToString(),
                         compilationCounters.BranchedSourceFunctionCalls.ToString(),
                         compilationCounters.OriginalSourceFunctionCalls.ToString(),
-                        compilationCounters.SpecializedSourceFunctionCalls.ToString()
+                        compilationCounters.SpecializedSourceFunctionCalls.ToString(),
+                        compilationMs,
+                        assemblyKB.ToString()
                     };
             }
 
             Console.WriteLine("Compilation statistics:");
             Console.WriteLine();
 
-            var (table1, table2) = new Table(headers, results).Split(1, 6);
+            var (table1, table_) = new Table(headers, results).Split(1, 6);
+            var (table2, table3) = table_.Split(1, 4);
             table1.Print(Console.Out);
             Console.WriteLine();
             table2.Print(Console.Out);
+            Console.WriteLine();
+            table3.Print(Console.Out);
             Console.WriteLine();
             Console.WriteLine();
         }

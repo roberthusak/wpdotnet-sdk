@@ -16,6 +16,7 @@
 
   <PropertyGroup>
     <AssemblyName>Peachpied.WordPress.$(Configuration)</AssemblyName>
+    <ExperimentalOptimization>RecordCompilationTime</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="
     '$(Configuration)' == 'PhpDocOverloadsStatic' or
@@ -26,7 +27,7 @@
     '$(Configuration)' == 'UsageOverloadsStatic' or
     '$(Configuration)' == 'UsageOverloadsBranch' or
     '$(Configuration)' == 'TargetedOverloadsStatic'">
-    <ExperimentalOptimization>$(Configuration)</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),$(Configuration)</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForce'">
     <PhpDocTypes>ParameterTypes,ReturnTypes</PhpDocTypes>
@@ -36,106 +37,107 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'PhpDocForceParamFunctions'">
     <PhpDocTypes>ParameterTypes</PhpDocTypes>
-    <ExperimentalOptimization>PhpDocForceOnlyFunctions</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),PhpDocForceOnlyFunctions</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticString'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchString'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticStringNotNull'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeString,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeString,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchStringNotNull'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeString,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticPhpString'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializePhpString,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializePhpString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchPhpString'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializePhpString,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializePhpString,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticAnyString'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeString,SpecializePhpString</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeString,SpecializePhpString</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchAnyString'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeString,SpecializePhpString</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeString,SpecializePhpString</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticNumber'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchNumber'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchPhpNumber'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull,AllowPhpNumberRuntimeSpecialization</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeNumbers,DisableStringParameterCasting,ForceSpecializedParametersNotNull,AllowPhpNumberRuntimeSpecialization</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticArray'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializePhpArray,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializePhpArray,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchArray'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializePhpArray,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializePhpArray,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticObject'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeObjects,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeObjects,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchObject'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeObjects,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeObjects,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticObjectNull'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeObjects,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeObjects,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchObjectNull'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeObjects,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeObjects,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticNull'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchNull'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticAll'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeCommon,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeCommon,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchAll'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeCommon,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeCommon,DisableStringParameterCasting,ForceSpecializedParametersNotNull</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticAllNull'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeCommon,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeCommon,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchAllNull'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeCommon,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeCommon,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticObjectAndNull'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeObjects,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeObjects,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchObjectAndNull'">
-    <ExperimentalOptimization>CallSiteOverloads,BranchedCallSites,SpecializeObjects,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeObjects,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticKnown'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeCommon,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeCommon,SpecializeNull,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticAll'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeAll,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeAll,ForceSpecializedParametersNotNull,DisableStringParameterCasting</ExperimentalOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsStaticAllIncremental'">
-    <ExperimentalOptimization>CallSiteOverloads,SpecializeAll,ForceSpecializedParametersNotNull,DisableStringParameterCasting,EnableIncrementalSpecialization</ExperimentalOptimization>
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,SpecializeAll,ForceSpecializedParametersNotNull,DisableStringParameterCasting,EnableIncrementalSpecialization</ExperimentalOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'CallSiteOverloadsBranchAllIncremental'">
+    <ExperimentalOptimization>$(ExperimentalOptimization),CallSiteOverloads,BranchedCallSites,SpecializeAll,ForceSpecializedParametersNotNull,DisableStringParameterCasting,EnableIncrementalSpecialization</ExperimentalOptimization>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(EnableCallCounting)' == ''">
     <EnableCallCounting>false</EnableCallCounting>
   </PropertyGroup>
   <PropertyGroup Condition="'$(EnableCallCounting)'">
-    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallCounting,RecordCompilationTime,RecordSpecializationList</ExperimentalOptimization>
-    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallCounting,RecordCompilationTime,RecordSpecializationList</ExperimentalOptimization>
+    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallCounting,RecordSpecializationList</ExperimentalOptimization>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(EnableCallTracing)' == ''">
     <EnableCallTracing>false</EnableCallTracing>
   </PropertyGroup>
   <PropertyGroup Condition="'$(EnableCallTracing)'">
-    <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' == ''">RoutineCallTracing,RoutineCallParameterTracing,RetainSpecializedParametersNotNullCheck</ExperimentalOptimization>
     <ExperimentalOptimization Condition="'$(ExperimentalOptimization)' != ''">$(ExperimentalOptimization),RoutineCallTracing,RoutineCallParameterTracing,RetainSpecializedParametersNotNullCheck</ExperimentalOptimization>
   </PropertyGroup>
 

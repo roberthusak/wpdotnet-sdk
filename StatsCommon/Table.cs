@@ -3,9 +3,9 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 
-namespace PeachPied.WordPress.Stats
+namespace StatsCommon
 {
-    internal class Table
+    public class Table
     {
         private readonly ImmutableArray<Column> _columns;
 

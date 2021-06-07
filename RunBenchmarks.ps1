@@ -105,6 +105,10 @@ if ($benchmarks) {
 if ($stats) {
     Write-Output "Measuring statistics:" | Tee-Object $logFile -Append
 
+    Push-Location "StatsCommon"
+    & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+    Pop-Location    
+
     Push-Location "PeachPied.WordPress.StatsRunner"
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
     Pop-Location    

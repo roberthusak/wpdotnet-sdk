@@ -7,7 +7,8 @@ param (
     [switch] $stats = $false,
     [switch] $buildPeachpie = $false,
     [string] $peachpiePath = $null,
-    [string] $peachpieConfig = "Release"
+    [string] $peachpieConfig = "Release",
+    [ValidateSet("wordpress", "bench")][string] $targetProject = "wordpress"
 )
 
 $logFile = [System.IO.Path]::GetFullPath($logFile)
@@ -58,7 +59,7 @@ if ($buildPeachpie) {
 
 if ($build) {
     Write-Output "Building configurations:" | Tee-Object $logFile -Append
-    Push-Location "wordpress"
+    Push-Location $targetProject
     
     $success = $True
     foreach ($config in $configs) {
@@ -81,28 +82,50 @@ if ($build) {
 
 if ($benchmarks) {
     Write-Output "Benchmarking:" | Tee-Object $logFile -Append
-    Push-Location "PeachPied.WordPress.Benchmarks"
 
-    & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+    if ($targetProject -eq "wordpress") {
+        Push-Location "PeachPied.WordPress.Benchmarks"
 
-    $filters = @()
-    if ($configs.Contains("Release")) {
-        $filters += "*.Release"
+        & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+
+        $filters = @()
+        if ($configs.Contains("Release")) {
+            $filters += "*.Release"
+        }
+        $optimizationConfigs = ($configs | Where-Object { $_ -ne "Release"})
+        if ($optimizationConfigs.Count -gt 0) {
+            $filters += "*.Optimization"
+            $env:WpBenchmark_Optimizations = $optimizationConfigs
+        }
+
+        & dotnet run -c Release --no-build -- --join --filter $filters
+
+        CheckProofFiles
+
+        Pop-Location
+    } elseif ($targetProject -eq "bench") {
+        Push-Location "StatsCommon"
+        & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+        Pop-Location   
+
+        Push-Location "PeachPied.PhpBenchmarks.Runner"
+
+        & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
+
+        New-Item -ItemType "directory" -Name "results" -Force | Out-Null
+        $benchLogFile = "results/bench_" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".log"
+        & dotnet run -c Release --no-build -- $configs | Tee-Object $benchLogFile | Tee-Object $logFile -Append
+
+        Pop-Location
     }
-    $optimizationConfigs = ($configs | Where-Object { $_ -ne "Release"})
-    if ($optimizationConfigs.Count -gt 0) {
-        $filters += "*.Optimization"
-        $env:WpBenchmark_Optimizations = $optimizationConfigs
-    }
-
-    & dotnet run -c Release --no-build -- --join --filter $filters
-
-    CheckProofFiles
-
-    Pop-Location
 }
 
 if ($stats) {
+    if ($targetProject -ne "wordpress") {
+        Write-Output "Stats are only supported for WordPress"
+        exit
+    }
+
     Write-Output "Measuring statistics:" | Tee-Object $logFile -Append
 
     Push-Location "StatsCommon"
@@ -118,7 +141,7 @@ if ($stats) {
 
     & dotnet build -c Release --no-dependencies | Out-File $logFile -Append
     $flags = If ($trace) { @("-trace") } else { @() }
-    & dotnet run -c Release --no-build -- $flags $configs | Tee-Object $statsLogFile -Append | Tee-Object $logFile -Append
+    & dotnet run -c Release --no-build -- $flags $configs | Tee-Object $statsLogFile | Tee-Object $logFile -Append
 
     CheckProofFiles
 

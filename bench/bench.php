@@ -374,49 +374,57 @@ function end_test($start, $name)
 function total()
 {
   global $total;
-  $pad = str_repeat("-", 24);
-  echo $pad."\n";
+  // $pad = str_repeat("-", 24);
+  // echo $pad."\n";
   $num = number_format($total,3);
   $pad = str_repeat(" ", 24-strlen("Total")-strlen($num));
   echo "Total".$pad.$num."\n";
 }
 
-$t0 = $t = start_test();
-simple();
-$t = end_test($t, "simple");
-simplecall();
-$t = end_test($t, "simplecall");
-simpleucall();
-$t = end_test($t, "simpleucall");
-simpleudcall();
-$t = end_test($t, "simpleudcall");
-mandel();
-$t = end_test($t, "mandel");
-mandel2();
-$t = end_test($t, "mandel2");
-ackermann(7);
-$t = end_test($t, "ackermann(7)");
-ary(50000);
-$t = end_test($t, "ary(50000)");
-ary2(50000);
-$t = end_test($t, "ary2(50000)");
-ary3(2000);
-$t = end_test($t, "ary3(2000)");
-fibo(30);
-$t = end_test($t, "fibo(30)");
-hash1(50000);
-$t = end_test($t, "hash1(50000)");
-hash2(500);
-$t = end_test($t, "hash2(500)");
-heapsort(20000);
-$t = end_test($t, "heapsort(20000)");
-matrix(20);
-$t = end_test($t, "matrix(20)");
-nestedloop(12);
-$t = end_test($t, "nestedloop(12)");
-sieve(30);
-$t = end_test($t, "sieve(30)");
-strcat(200000);
-$t = end_test($t, "strcat(200000)");
-total();
+$runs = isset($argv[1]) ? $argv[1] : 1;
+for ($i = 0; $i < $runs; $i++)
+{
+  $total = 0;
+
+  $t0 = $t = start_test();
+  simple();
+  $t = end_test($t, "simple");
+  simplecall();
+  $t = end_test($t, "simplecall");
+  simpleucall();
+  $t = end_test($t, "simpleucall");
+  simpleudcall();
+  $t = end_test($t, "simpleudcall");
+  mandel();
+  $t = end_test($t, "mandel");
+  mandel2();
+  $t = end_test($t, "mandel2");
+  ackermann(7);
+  $t = end_test($t, "ackermann(7)");
+  ary(50000);
+  $t = end_test($t, "ary(50000)");
+  ary2(50000);
+  $t = end_test($t, "ary2(50000)");
+  ary3(2000);
+  $t = end_test($t, "ary3(2000)");
+  fibo(30);
+  $t = end_test($t, "fibo(30)");
+  hash1(50000);
+  $t = end_test($t, "hash1(50000)");
+  hash2(500);
+  $t = end_test($t, "hash2(500)");
+  heapsort(20000);
+  $t = end_test($t, "heapsort(20000)");
+  matrix(20);
+  $t = end_test($t, "matrix(20)");
+  nestedloop(12);
+  $t = end_test($t, "nestedloop(12)");
+  sieve(30);
+  $t = end_test($t, "sieve(30)");
+  strcat(200000);
+  $t = end_test($t, "strcat(200000)");
+  total();
+
+  echo "<RunEnd>\n";
+}
 ?>
